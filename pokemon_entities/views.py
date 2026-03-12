@@ -7,6 +7,7 @@ from django.shortcuts import render
 from .models import Pokemon
 from .models import PokemonEntity
 from django.utils.timezone import localtime
+from django.shortcuts import get_object_or_404
 
 
 MOSCOW_CENTER = [55.751244, 37.618423]
@@ -59,7 +60,7 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemon = Pokemon.objects.get(id=pokemon_id)
+    pokemon = get_object_or_404(Pokemon, id=pokemon_id)
     pokemon_description = {
         'img_url': pokemon.image.url,
         'title_ru': pokemon.title,
@@ -93,4 +94,3 @@ def show_pokemon(request, pokemon_id):
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon_description
     })
-
