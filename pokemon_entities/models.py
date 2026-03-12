@@ -6,7 +6,7 @@ class Pokemon(models.Model):
     title_en = models.CharField(max_length=200, blank=True, verbose_name="Название на английском")
     title_jp = models.CharField(max_length=200, blank=True, verbose_name="Название на японском")
     description = models.TextField(blank=True, verbose_name="Описание")
-    image = models.ImageField(upload_to="images", null=True, verbose_name="Изображение")
+    image = models.ImageField(upload_to="images", null=True, blank=True, verbose_name="Изображение")
     previous_evolution = models.ForeignKey(
     	"self",
     	on_delete=models.CASCADE,
@@ -21,7 +21,12 @@ class Pokemon(models.Model):
 
 
 class PokemonEntity(models.Model):
-	pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE, verbose_name="Вид покемона")
+	pokemon = models.ForeignKey(
+		Pokemon,
+		on_delete=models.CASCADE,
+		verbose_name="Вид покемона",
+		related_name="pokemon_entities"
+	)
 	lat = models.FloatField(null=True, verbose_name="Широта")
 	lon = models.FloatField(null=True, verbose_name="Долгота")
 	appeared_at = models.DateTimeField(null=True, blank=True, verbose_name="Появление")
